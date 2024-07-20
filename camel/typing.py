@@ -12,9 +12,7 @@
 # limitations under the License.
 # =========== Copyright 2023 @ CAMEL-AI.org. All Rights Reserved. ===========
 from enum import Enum
-import openai
 
-vllm_model = None
 
 class TaskType(Enum):
     AI_SOCIETY = "ai_society"
@@ -52,14 +50,12 @@ class ModelType(Enum):
     GPT_4_32k = "gpt-4-32k"
     GPT_4_TURBO = "gpt-4-turbo"
     GPT_4_TURBO_V = "gpt-4-turbo"
-    if vllm_model == None:
-        vllm_model = openai.models.list().data[0].id
-    VLLM = vllm_model
+
     STUB = "stub"
 
     @property
     def value_for_tiktoken(self):
-        return self.value if self.name not in ["STUB", "VLLM"] else "gpt-3.5-turbo-16k-0613"
+        return self.value if self.name != "STUB" else "gpt-3.5-turbo-16k-0613"
 
 
 class PhaseType(Enum):
